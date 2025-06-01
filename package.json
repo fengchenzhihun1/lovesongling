@@ -1,6 +1,7 @@
 {
-  "name": "vue",
-  "version": "0.0.0",
+  "name": "love-confession",
+  "version": "1.0.0",
+  "description": "一个浪漫的表白网站",
   "private": true,
   "type": "module",
   "scripts": {
