@@ -4,9 +4,9 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 const firstMeetDate = new Date('2007-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
-let timerId = null
+let timerId: number | null = null
 
-const formatDuration = (startDate) => {
+const formatDuration = (startDate: Date) => {
   const ms = currentTime.value.getTime() - startDate.getTime();
   if (ms < 0) return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
 
@@ -176,7 +176,7 @@ const prevMemory = () => {
 onMounted(() => {
   timerId = setInterval(() => {
     currentTime.value = new Date();
-  }, 1000);
+  }, 1000) as number;
   setTimeout(() => {
     showMemories.value = true
   }, 500)

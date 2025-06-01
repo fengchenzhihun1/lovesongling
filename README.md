@@ -1,14 +1,21 @@
-# vue
+# 💕 爱的告白 - Love Confession Website
 
-This template should help get you started developing with Vue 3 in Vite.
+一个用Vue 3 + TypeScript打造的浪漫表白网站，用最美的方式表达你的爱意。
 
-## Deploy
+## ✨ 特色功能
 
-[![Deploy with EdgeOne Pages](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?from=github&template=vue-template)
+- 💖 **浪漫首页** - 动态心跳动画和温馨的表白话语
+- 💌 **表白信页面** - 逐字显示的深情表白信
+- 📸 **美好回忆** - 时光轴展示你们的甜蜜回忆
+- 🎨 **精美动画** - 飘浮的爱心和流畅的过渡效果
+- 📱 **响应式设计** - 完美适配各种设备
 
-More Templates: [EdgeOne Pages](https://edgeone.ai/pages/templates)
+## 🎯 使用场景
 
-Live Demo: https://vue-template.edgeone.app
+- 向心爱的人表白
+- 纪念恋爱周年
+- 求婚仪式
+- 情人节惊喜
 
 ## Recommended IDE Setup
 

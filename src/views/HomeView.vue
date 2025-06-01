@@ -10,7 +10,7 @@ const loveStartDate = new Date('2024-05-04')
 const currentTime = ref(new Date())
 
 // 定时器更新当前时间
-let timer: NodeJS.Timeout | null = null
+let timer: number | null = null
 
 // 打字机效果相关
 const typewriterText = ref('')
