@@ -8,7 +8,7 @@ const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 
 // 定时器更新当前时间
-let timer = null
+let timer: number | null = null
 
 const timeSinceFirstMeet = computed(() => {
   return calculateTimeDifference(firstMeetDate, currentTime.value)
@@ -80,7 +80,7 @@ const confessionLines = [
   "愿意和我一起书写我们的爱情故事吗？"
 ]
 
-const handleResponse = (result) => {
+const handleResponse = (result: boolean) => {
   responseResult.value = result
   showResponse.value = true
   
