@@ -1,68 +1,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { calculateTimeDifference } from '@/utils/timeCalculator'
 
 const firstMeetDate = new Date('2007-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 let timerId: number | null = null
 
-const formatDuration = (startDate: Date) => {
-  const ms = currentTime.value.getTime() - startDate.getTime();
-  if (ms < 0) return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
-
-  let seconds = Math.floor(ms / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-  let days = Math.floor(hours / 24);
-
-  const originalDate = new Date(startDate);
-  let years = currentTime.value.getFullYear() - originalDate.getFullYear();
-  let months = currentTime.value.getMonth() - originalDate.getMonth();
-  
-  // Adjust days based on current date's day vs start date's day for month calculation
-  let currentDays = currentTime.value.getDate();
-  let startDays = originalDate.getDate();
-
-  if (months < 0 || (months === 0 && currentDays < startDays)) {
-    years--;
-    months += 12;
-  }
-
-  // Recalculate days based on the adjusted years and months
-  // This is a simplified approach for days, a more precise library might be needed for perfect month/day boundaries
-  // For now, we'll use the total days and then derive Y/M from it for a more intuitive display
-  
-  // Let's refine the year/month/day calculation
-  let tempCurrentDate = new Date(currentTime.value);
-  let tempStartDate = new Date(startDate);
-
-  let y = tempCurrentDate.getFullYear() - tempStartDate.getFullYear();
-  let m = tempCurrentDate.getMonth() - tempStartDate.getMonth();
-  let d = tempCurrentDate.getDate() - tempStartDate.getDate();
-
-  if (d < 0) {
-    m--;
-    // Get days in the previous month of current time
-    const daysInLastMonth = new Date(tempCurrentDate.getFullYear(), tempCurrentDate.getMonth(), 0).getDate();
-    d += daysInLastMonth;
-  }
-  if (m < 0) {
-    y--;
-    m += 12;
-  }
-  
-  return {
-    years: y,
-    months: m,
-    days: d,
-    hours: hours % 24,
-    minutes: minutes % 60,
-    seconds: seconds % 60,
-  };
-};
-
-const timeSinceFirstMeet = computed(() => formatDuration(firstMeetDate))
-const timeSinceLove = computed(() => formatDuration(loveStartDate))
+const timeSinceFirstMeet = computed(() => calculateTimeDifference(firstMeetDate, currentTime.value))
+const timeSinceLove = computed(() => calculateTimeDifference(loveStartDate, currentTime.value))
 
 const showMemories = ref(false)
 const currentMemory = ref(0)

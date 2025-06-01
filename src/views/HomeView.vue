@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { calculateTimeDifference } from '@/utils/timeCalculator'
 
 const router = useRouter()
 
 // 计算相识和相爱的时间
-const firstMeetDate = new Date('2007-09-01')
-const loveStartDate = new Date('2024-05-04')
+const firstMeetDate = new Date('2007-09-01T00:00:00')
+const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 
 // 定时器更新当前时间
@@ -29,20 +30,6 @@ const loveMessages = [
   '宋玲，你愿意和我一起走过人生的每一个春夏秋冬吗？',
   '愿我们的爱情故事永远美好下去...'
 ]
-
-// 计算时间差的函数
-function calculateTimeDifference(startDate: Date, endDate: Date) {
-  const diff = endDate.getTime() - startDate.getTime()
-  
-  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365))
-  const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30))
-  const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-  
-  return { years, months, days, hours, minutes, seconds }
-}
 
 const timeSinceFirstMeet = computed(() => {
   return calculateTimeDifference(firstMeetDate, currentTime.value)

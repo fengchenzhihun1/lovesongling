@@ -1,27 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { calculateTimeDifference, calculateTotalDays } from '@/utils/timeCalculator'
 
 // 计算相识和相爱的时间
-const firstMeetDate = new Date('2007-09-01')
-const loveStartDate = new Date('2024-05-04')
+const firstMeetDate = new Date('2007-09-01T00:00:00')
+const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 
 // 定时器更新当前时间
 let timer = null
-
-// 计算时间差的函数
-function calculateTimeDifference(startDate, endDate) {
-  const diff = endDate.getTime() - startDate.getTime()
-  
-  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365))
-  const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30))
-  const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-  
-  return { years, months, days, hours, minutes, seconds }
-}
 
 const timeSinceFirstMeet = computed(() => {
   return calculateTimeDifference(firstMeetDate, currentTime.value)
@@ -33,11 +20,11 @@ const timeSinceLove = computed(() => {
 
 // 为了兼容现有的告白文本，保留天数计算
 const daysSinceFirstMeet = computed(() => {
-  return Math.floor((currentTime.value - firstMeetDate) / (1000 * 60 * 60 * 24))
+  return calculateTotalDays(firstMeetDate, currentTime.value)
 })
 
 const daysSinceLove = computed(() => {
-  return Math.floor((currentTime.value - loveStartDate) / (1000 * 60 * 60 * 24))
+  return calculateTotalDays(loveStartDate, currentTime.value)
 })
 
 const showResponse = ref(false)
