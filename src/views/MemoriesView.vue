@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { calculateTimeDifference } from '@/utils/timeCalculator'
 
-const firstMeetDate = new Date('2007-09-01T00:00:00')
+const firstMeetDate = new Date('2006-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 let timerId: number | null = null
@@ -11,27 +11,27 @@ const timeSinceFirstMeet = computed(() => calculateTimeDifference(firstMeetDate,
 const timeSinceLove = computed(() => calculateTimeDifference(loveStartDate, currentTime.value))
 
 const showMemories = ref(false)
-const currentMemory = ref(0)
+// 移除了未使用的 currentMemory 变量
 
 const memories = [
   {
     title: '初次相遇 - 同窗时光',
-    date: '2007年9月1日',
+    date: '2006年9月1日',
     content: '那一年我们还是青涩的学生，坐在同一间教室里。那时的我们还不知道，这份相识会在多年后开花结果。青春年少的我们，在最美好的年华里种下了缘分的种子。',
     emoji: '📚',
     color: '#ffb6c1'
   },
   {
     title: '时光荏苒 - 各自成长',
-    date: '2007-2024年',
-    content: '十七年的时光里，我们各自在人生的道路上前行。经历了求学、工作、成长的种种，虽然分别，但那份初识的美好的一直深藏在心底，等待着重逢的那一天。',
+    date: '2006-2024年',
+    content: '十八年的时光里，我们各自在人生的道路上前行。经历了求学、工作、成长的种种，虽然分别，但那份初识的美好的一直深藏在心底，等待着重逢的那一天。',
     emoji: '🌱',
     color: '#ff9999'
   },
   {
     title: '命运安排 - 再次相遇',
     date: '2024年初',
-    content: '十七年后的重逢，虽然是通过相亲的方式，但当我们再次见面时，那种熟悉的感觉瞬间涌上心头。也许当时我们都还在犹豫，但命运的齿轮已经开始转动。',
+    content: '十八年后的重逢，虽然是通过相亲的方式，但当我们再次见面时，那种熟悉的感觉瞬间涌上心头。也许当时我们都还在犹豫，但命运的齿轮已经开始转动。',
     emoji: '🎭',
     color: '#87ceeb'
   },
@@ -68,13 +68,13 @@ const memories = [
 const timeline = [
   {
     title: '初识同窗',
-    date: '2007.09.01',
+    date: '2006.09.01',
     description: '青春年少的我们在同一间教室里相遇，那时还不知道这是命运的开始'
   },
   {
     title: '各自成长',
-    date: '2007-2024',
-    description: '十七年的时光里，我们在各自的人生道路上成长，积累着重逢时的美好'
+    date: '2006-2024',
+    description: '十八年的时光里，我们在各自的人生道路上成长，积累着重逢时的美好'
   },
   {
     title: '重逢相识',
@@ -103,21 +103,7 @@ const timeline = [
   }
 ]
 
-const nextMemory = () => {
-  if (currentMemory.value < memories.length - 1) {
-    currentMemory.value++
-  } else {
-    currentMemory.value = 0
-  }
-}
-
-const prevMemory = () => {
-  if (currentMemory.value > 0) {
-    currentMemory.value--
-  } else {
-    currentMemory.value = memories.length - 1
-  }
-}
+// 移除了未使用的 nextMemory 和 prevMemory 函数
 
 onMounted(() => {
   timerId = setInterval(() => {
@@ -139,7 +125,7 @@ onUnmounted(() => {
   <div class="memories-container">
     <div class="memories-header">
       <h1 class="memories-title">💕 我和宋玲的爱情回忆 💕</h1>
-      <p class="memories-subtitle">从2007年的初识到2024年的相爱，每一个瞬间都是命运的安排</p>
+      <p class="memories-subtitle">从2006年的初识到2024年的相爱，每一个瞬间都是命运的安排</p>
       <div class="love-counter">
         <div class="counter-item">
           <span class="counter-number">{{ timeSinceFirstMeet.years }}年 {{ timeSinceFirstMeet.months }}月 {{ timeSinceFirstMeet.days }}天</span>
@@ -180,7 +166,7 @@ onUnmounted(() => {
     <div class="love-message">
       <h2>💝 给宋玲的话 💝</h2>
       <div class="love-quotes">
-        <p>"宋玲，从2007年我们初次相遇到现在，已经过去了 {{ timeSinceFirstMeet.years }} 年 {{ timeSinceFirstMeet.months }} 个月 {{ timeSinceFirstMeet.days }} 天 {{ timeSinceFirstMeet.hours }} 小时 {{ timeSinceFirstMeet.minutes }} 分钟 {{ timeSinceFirstMeet.seconds }} 秒。"</p>
+        <p>"宋玲，从2006年我们初次相遇到现在，已经过去了 {{ timeSinceFirstMeet.years }} 年 {{ timeSinceFirstMeet.months }} 个月 {{ timeSinceFirstMeet.days }} 天 {{ timeSinceFirstMeet.hours }} 小时 {{ timeSinceFirstMeet.minutes }} 分钟 {{ timeSinceFirstMeet.seconds }} 秒。"</p>
         <p>"虽然中间我们各自经历了人生的起起伏伏，但命运最终还是让我们在2024年重新相遇。"</p>
         <p>"从游戏中的相逢到现实中的相爱，每一步都像是上天的安排。"</p>
         <p>"磕磕碰碰中我们的爱越来越真挚，我想和你一起走过人生的每一个春夏秋冬。"</p>

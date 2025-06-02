@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { calculateTimeDifference, calculateTotalDays } from '@/utils/timeCalculator'
 
 // 计算相识和相爱的时间
-const firstMeetDate = new Date('2007-09-01T00:00:00')
+const firstMeetDate = new Date('2006-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 
@@ -23,21 +23,18 @@ const daysSinceFirstMeet = computed(() => {
   return calculateTotalDays(firstMeetDate, currentTime.value)
 })
 
-const daysSinceLove = computed(() => {
-  return calculateTotalDays(loveStartDate, currentTime.value)
-})
-
+// 移除了未使用的 daysSinceLove 变量
 const showResponse = ref(false)
 const responseResult = ref(false)
 
 const confessionLines = [
   "亲爱的宋玲，",
-  "从2007年9月1日我们初次相遇开始，",
+  "从2006年9月1日我们初次相遇开始，",
   "已经过去了" + Math.floor(daysSinceFirstMeet.value / 365) + "年多的时光。",
   "那时的我们还是青涩的学生，",
   "坐在同一间教室里，种下了缘分的种子。",
   "",
-  "十七年的时光荏苒，",
+  "十八年的时光荏苒，",
   "我们各自在人生的道路上成长，",
   "经历了求学、工作、人生的起起伏伏，",
   "但那份初识的美好一直深藏在我心底。",
@@ -69,7 +66,7 @@ const confessionLines = [
   "",
   "宋玲，我爱你，",
   "不仅仅是现在这一刻，",
-  "更是从2007年的那个秋天开始，",
+  "更是从2006年的那个秋天开始，",
   "直到永远...",
   "",
   "我想和你一起走过人生的每一个春夏秋冬，",
@@ -142,7 +139,7 @@ onUnmounted(() => {
           <div class="compact-time-display">
             <span class="time-unit">{{ timeSinceFirstMeet.years }}年</span>
             <span class="time-unit">{{ timeSinceFirstMeet.months }}月</span>
-            <span class="time-unit">{{ timeSinceFirstMeet.days }}日</span>
+            <span class="time-unit">{{ timeSinceFirstMeet.days }}天</span>
             <span class="time-highlight">{{ String(timeSinceFirstMeet.hours).padStart(2, '0') }}:{{ String(timeSinceFirstMeet.minutes).padStart(2, '0') }}:{{ String(timeSinceFirstMeet.seconds).padStart(2, '0') }}</span>
           </div>
         </div>
@@ -151,7 +148,7 @@ onUnmounted(() => {
           <div class="compact-time-display">
             <span class="time-unit">{{ timeSinceLove.years }}年</span>
             <span class="time-unit">{{ timeSinceLove.months }}月</span>
-            <span class="time-unit">{{ timeSinceLove.days }}日</span>
+            <span class="time-unit">{{ timeSinceLove.days }}天</span>
             <span class="time-highlight">{{ String(timeSinceLove.hours).padStart(2, '0') }}:{{ String(timeSinceLove.minutes).padStart(2, '0') }}:{{ String(timeSinceLove.seconds).padStart(2, '0') }}</span>
           </div>
         </div>
@@ -160,7 +157,7 @@ onUnmounted(() => {
     
     <div class="confession-header">
       <h1 class="confession-title">💖 给宋玲的告白 💖</h1>
-      <p class="confession-subtitle">这些话我想对你说很久了，从2007年到2024年，从相识到相爱...</p>
+      <p class="confession-subtitle">这些话我想对你说很久了，从2006年到2024年，从相识到相爱...</p>
     </div>
 
     <div class="confession-content">
@@ -196,7 +193,7 @@ onUnmounted(() => {
             </div>
             <div class="time-item">
               <span class="time-number">{{ timeSinceFirstMeet.days }}</span>
-              <span class="time-label">日</span>
+              <span class="time-label">天</span>
             </div>
             <div class="time-item">
               <span class="time-number">{{ timeSinceFirstMeet.hours }}</span>
@@ -226,7 +223,7 @@ onUnmounted(() => {
             </div>
             <div class="time-item">
               <span class="time-number">{{ timeSinceLove.days }}</span>
-              <span class="time-label">日</span>
+              <span class="time-label">天</span>
             </div>
             <div class="time-item">
               <span class="time-number">{{ timeSinceLove.hours }}</span>
@@ -267,13 +264,13 @@ onUnmounted(() => {
       <div v-if="showResponse" class="response-message">
         <div v-if="responseResult" class="happy-response">
           <h2>🎉 太好了！我们在一起了！🎉</h2>
-          <p>从2007年的相识到2024年的相爱，我们终于走到了一起！</p>
+          <p>从2006年的相识到2024年的相爱，我们终于走到了一起！</p>
           <p>我们一起创造更多美好的回忆，从郑州到迪士尼，从游戏世界到现实生活！</p>
           <div class="celebration">🎊💕🎊💕🎊</div>
         </div>
         <div v-else class="sad-response">
           <h2>😊 没关系，我理解...</h2>
-          <p>就像我们从2007年等到2024年一样，我会继续等待</p>
+          <p>就像我们从2006年等到2024年一样，我会继续等待</p>
           <p>无论多久，我的心都会为你而跳动</p>
           <div class="patience">⏰💙⏰💙⏰</div>
         </div>

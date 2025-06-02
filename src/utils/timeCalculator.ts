@@ -11,43 +11,99 @@ export function calculateTimeDifference(startDate: Date, endDate: Date) {
     return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
-  let years = endDate.getFullYear() - startDate.getFullYear();
-  let months = endDate.getMonth() - startDate.getMonth();
-  let days = endDate.getDate() - startDate.getDate();
-  let hours = endDate.getHours() - startDate.getHours();
-  let minutes = endDate.getMinutes() - startDate.getMinutes();
-  let seconds = endDate.getSeconds() - startDate.getSeconds();
+  // 创建日期副本避免修改原始日期
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  let years = 0;
+  let months = 0;
+  let days = 0;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
 
-  // 处理秒数借位
-  if (seconds < 0) {
-    seconds += 60;
-    minutes--;
-  }
-
-  // 处理分钟借位
-  if (minutes < 0) {
-    minutes += 60;
-    hours--;
-  }
-
-  // 处理小时借位
-  if (hours < 0) {
-    hours += 24;
-    days--;
-  }
-
-  // 处理天数借位
-  if (days < 0) {
-    // 获取上个月的天数
-    const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0);
-    days += prevMonth.getDate();
-    months--;
-  }
-
-  // 处理月份借位
+  // 计算年份
+  years = end.getFullYear() - start.getFullYear();
+  
+  // 计算月份
+  months = end.getMonth() - start.getMonth();
   if (months < 0) {
-    months += 12;
     years--;
+    months += 12;
+  }
+  
+  // 计算天数
+  days = end.getDate() - start.getDate();
+  if (days < 0) {
+    months--;
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+    // 获取上个月的最后一天
+    const lastDayOfPrevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+    days += lastDayOfPrevMonth;
+  }
+  
+  // 计算小时
+  hours = end.getHours() - start.getHours();
+  if (hours < 0) {
+    days--;
+    hours += 24;
+    // 如果天数变为负数，需要重新调整
+    if (days < 0) {
+      months--;
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+      const lastDayOfPrevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+      days += lastDayOfPrevMonth;
+    }
+  }
+  
+  // 计算分钟
+  minutes = end.getMinutes() - start.getMinutes();
+  if (minutes < 0) {
+    hours--;
+    minutes += 60;
+    if (hours < 0) {
+      days--;
+      hours += 24;
+      if (days < 0) {
+        months--;
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+        const lastDayOfPrevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+        days += lastDayOfPrevMonth;
+      }
+    }
+  }
+  
+  // 计算秒数
+  seconds = end.getSeconds() - start.getSeconds();
+  if (seconds < 0) {
+    minutes--;
+    seconds += 60;
+    if (minutes < 0) {
+      hours--;
+      minutes += 60;
+      if (hours < 0) {
+        days--;
+        hours += 24;
+        if (days < 0) {
+          months--;
+          if (months < 0) {
+            years--;
+            months += 12;
+          }
+          const lastDayOfPrevMonth = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+          days += lastDayOfPrevMonth;
+        }
+      }
+    }
   }
 
   return {

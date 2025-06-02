@@ -6,7 +6,7 @@ import { calculateTimeDifference } from '@/utils/timeCalculator'
 const router = useRouter()
 
 // 计算相识和相爱的时间
-const firstMeetDate = new Date('2007-09-01T00:00:00')
+const firstMeetDate = new Date('2006-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
 const currentTime = ref(new Date())
 
@@ -21,8 +21,8 @@ const showNavigation = ref(false)
 // 爱情文字内容
 const loveMessages = [
   '宋玲，我想对你说...',
-  '从2007年的初次相遇，到2024年的重新开始',
-  '十七年后的重逢，让我发现你就是我一直在寻找的那个人',
+  '从2006年的初次相遇，到2024年的重新开始',
+  '十八年后的重逢，让我发现你就是我一直在寻找的那个人',
   '你就像天边最亮的那颗星，指引着我前进的方向',
   '在郑州的那次约会，我看到了你眼中的星光',
   '迪士尼的浪漫之旅，让我更加确定你就是我的唯一',
@@ -145,7 +145,7 @@ function goToMemories() {
         <div class="time-section">
           <div class="time-label">💕 相识时光</div>
           <div class="time-value">
-            {{ timeSinceFirstMeet.years }}年 {{ timeSinceFirstMeet.months }}月 {{ timeSinceFirstMeet.days }}日
+            {{ timeSinceFirstMeet.years }}年 {{ timeSinceFirstMeet.months }}月 {{ timeSinceFirstMeet.days }}天
             <span class="time-clock">
               {{ String(timeSinceFirstMeet.hours).padStart(2, '0') }}:
               {{ String(timeSinceFirstMeet.minutes).padStart(2, '0') }}:
@@ -157,7 +157,7 @@ function goToMemories() {
         <div class="time-section">
           <div class="time-label">💖 相爱时光</div>
           <div class="time-value">
-            {{ timeSinceLove.years }}年 {{ timeSinceLove.months }}月 {{ timeSinceLove.days }}日
+            {{ timeSinceLove.years }}年 {{ timeSinceLove.months }}月 {{ timeSinceLove.days }}天
             <span class="time-clock">
               {{ String(timeSinceLove.hours).padStart(2, '0') }}:
               {{ String(timeSinceLove.minutes).padStart(2, '0') }}:
