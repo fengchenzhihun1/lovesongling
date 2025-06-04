@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { calculateTimeDifference } from '@/utils/timeCalculator'
+import HomeButton from '@/components/HomeButton.vue'
 
 const firstMeetDate = new Date('2006-09-01T00:00:00')
 const loveStartDate = new Date('2024-05-04T00:00:00')
@@ -119,23 +120,28 @@ onUnmounted(() => {
     clearInterval(timerId);
   }
 })
+
 </script>
 
 <template>
   <div class="memories-container">
+    <HomeButton />
+    
     <div class="memories-header">
       <h1 class="memories-title">💕 我和宋玲的爱情回忆 💕</h1>
       <p class="memories-subtitle">从2006年的初识到2024年的相爱，每一个瞬间都是命运的安排</p>
       <div class="love-counter">
-        <div class="counter-item">
-          <span class="counter-number">{{ timeSinceFirstMeet.years }}年 {{ timeSinceFirstMeet.months }}月 {{ timeSinceFirstMeet.days }}天</span>
-          <span class="counter-detail">{{ timeSinceFirstMeet.hours }}时 {{ timeSinceFirstMeet.minutes }}分 {{ timeSinceFirstMeet.seconds }}秒</span>
-          <span class="counter-label">我们相识了</span>
-        </div>
-        <div class="counter-item">
-          <span class="counter-number">{{ timeSinceLove.years }}年 {{ timeSinceLove.months }}月 {{ timeSinceLove.days }}天</span>
-          <span class="counter-detail">{{ timeSinceLove.hours }}时 {{ timeSinceLove.minutes }}分 {{ timeSinceLove.seconds }}秒</span>
-          <span class="counter-label">我们相爱了</span>
+        <div class="counter-row">
+          <div class="counter-item">
+            <span class="counter-number">{{ timeSinceFirstMeet.years }}年 {{ timeSinceFirstMeet.months }}月 {{ timeSinceFirstMeet.days }}天</span>
+            <span class="counter-detail">{{ timeSinceFirstMeet.hours }}时 {{ timeSinceFirstMeet.minutes }}分 {{ timeSinceFirstMeet.seconds }}秒</span>
+            <span class="counter-label">我们相识了</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-number">{{ timeSinceLove.years }}年 {{ timeSinceLove.months }}月 {{ timeSinceLove.days }}天</span>
+            <span class="counter-detail">{{ timeSinceLove.hours }}时 {{ timeSinceLove.minutes }}分 {{ timeSinceLove.seconds }}秒</span>
+            <span class="counter-label">我们相爱了</span>
+          </div>
         </div>
       </div>
     </div>
@@ -198,6 +204,7 @@ onUnmounted(() => {
   color: #fff;
   margin-bottom: 1rem;
   text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+  font-weight: bold;
   background: linear-gradient(45deg, #fff, #ffcdd2, #f8bbd9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -234,14 +241,24 @@ onUnmounted(() => {
   border: 2px solid rgba(255,255,255,0.2);
 }
 
+.counter-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
 .counter-item {
   text-align: center;
   padding: 2rem;
   background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
   border-radius: 20px;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 100%;
-  max-width: 500px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
   transform-style: preserve-3d;
   border: 1px solid rgba(255,255,255,0.3);
 }

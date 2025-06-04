@@ -1,21 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+
+// 浮动返回按钮相关代码已移除
 </script>
 
 <template>
   <div class="love-container">
-    <header class="love-header">
-      <div class="heart-animation">
-        <div class="heart">💖</div>
-      </div>
-      
-      <nav class="love-nav">
-        <RouterLink to="/" class="nav-link">💕 首页</RouterLink>
-        <RouterLink to="/confession" class="nav-link">💌 表白信</RouterLink>
-        <RouterLink to="/memories" class="nav-link">📸 回忆</RouterLink>
-      </nav>
-    </header>
-
     <main class="love-main">
       <RouterView />
     </main>
@@ -49,54 +40,7 @@ import { RouterLink, RouterView } from 'vue-router'
   box-sizing: border-box;
 }
 
-.love-header {
-  padding: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.heart-animation {
-  margin-bottom: 1.5rem;
-}
-
-.heart {
-  font-size: 4rem;
-  animation: heartbeat 1.5s infinite;
-}
-
-.love-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.nav-link {
-  color: var(--love-primary);
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  transition: all 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 2px 10px rgba(255, 107, 139, 0.2);
-}
-
-.nav-link:hover {
-  background-color: var(--love-primary);
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
-}
-
-.nav-link.router-link-exact-active {
-  background-color: var(--love-accent);
-  color: white;
-}
+/* 浮动返回按钮样式已移除 */
 
 .love-main {
   padding: 0;
@@ -167,20 +111,20 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 @keyframes heartbeat {
-  0% {
+  0%, 100% {
     transform: scale(1);
-  }
-  25% {
-    transform: scale(1.1);
   }
   50% {
-    transform: scale(1);
-  }
-  75% {
     transform: scale(1.1);
   }
-  100% {
-    transform: scale(1);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
