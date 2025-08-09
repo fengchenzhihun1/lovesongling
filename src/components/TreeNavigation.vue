@@ -1,6 +1,17 @@
 <template>
-  <div class="tree-navigation" :class="{ 'collapsed': !sidebarOpen }">
+  <div class="tree-navigation" :class="{ 'collapsed': !sidebarOpen, 'mobile-open': mobileMenuOpen }">
     <div class="nav-content">
+      <!-- 移动端返回按钮 -->
+      <div class="mobile-header" v-if="isMobile">
+        <button class="back-button" @click="goBack">
+          <span class="back-icon">←</span>
+          <span>返回</span>
+        </button>
+        <button class="close-button" @click="closeMobileMenu">
+          <span>✕</span>
+        </button>
+      </div>
+      
       <!-- 总览链接和折叠按钮 -->
       <div class="nav-overview-container">
         <router-link to="/investment" class="nav-item nav-overview" :class="{ active: $route.path === '/investment' }">
@@ -48,13 +59,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { investmentService, type WeekData } from '@/services/investmentService'
 
 const route = useRoute()
+const router = useRouter()
 const weeks = ref<WeekData[]>([])
 const sidebarOpen = ref(true)
+const mobileMenuOpen = ref(false)
+const isMobile = ref(false)
 
 // 树形数据结构
 interface WeekNode {
@@ -178,8 +192,12 @@ const isWeekActive = (weekId: string): boolean => {
 
 // 切换侧边栏
 const toggleSidebar = () => {
-  sidebarOpen.value = !sidebarOpen.value
-  console.log('Sidebar toggled:', sidebarOpen.value)
+  if (isMobile.value) {
+    mobileMenuOpen.value = !mobileMenuOpen.value
+  } else {
+    sidebarOpen.value = !sidebarOpen.value
+  }
+  console.log('Sidebar toggled:', sidebarOpen.value, 'Mobile menu:', mobileMenuOpen.value)
   
   // 通知父组件状态变化
   const event = new CustomEvent('sidebar-toggle', {
@@ -191,8 +209,27 @@ const toggleSidebar = () => {
   document.querySelector('.tree-navigation')?.classList.toggle('collapsed', !sidebarOpen.value)
 }
 
+// 移动端相关方法
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768
+  if (!isMobile.value) {
+    mobileMenuOpen.value = false
+  }
+}
+
+const goBack = () => {
+  router.go(-1)
+}
+
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false
+}
+
 // 加载数据
 onMounted(async () => {
+  // 检查是否为移动端
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
   try {
     weeks.value = await investmentService.getWeeks()
     treeData.value = parseWeekData(weeks.value)
@@ -216,6 +253,16 @@ onMounted(async () => {
   } catch (error) {
     console.error('Failed to load weeks data:', error)
   }
+})
+
+// 清理事件监听器
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
+// 暴露方法给父组件
+defineExpose({
+  toggleSidebar
 })
 </script>
 
@@ -488,16 +535,64 @@ onMounted(async () => {
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* 移动端头部样式 */
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #2d3748;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.back-button, .close-button {
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-button:hover, .close-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #00d4ff;
+}
+
+.back-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.close-button {
+  font-size: 20px;
+  padding: 8px;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .tree-navigation {
     width: 100%;
     transform: translateX(-100%);
     transition: transform 0.3s;
+    z-index: 9999;
   }
   
-  .tree-navigation.open {
+  .tree-navigation.mobile-open {
     transform: translateX(0);
+  }
+  
+  .nav-overview-container {
+    margin-top: 0;
+  }
+  
+  .nav-toggle {
+    display: none;
   }
 }
 </style>
