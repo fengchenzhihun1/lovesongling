@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投资主题深度分析 | 伺机而动不急不躁（正）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .theme-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .theme-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .theme-title {
+            color: #00d4ff;
+            font-size: 1.8em;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 5px;
+        }
+
+        .logic-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .target-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .target-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .performance-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px 5px 5px 0;
+        }
+
+        .positive {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .neutral {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .negative {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            color: white;
+        }
+
+        .discussion-points {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .theme-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .targets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="investment_summary_main.html" class="back-btn">← 返回总览</a>
+        
+        <div class="header">
+            <h1>🎯 投资主题深度分析</h1>
+            <p>2025年8月3日 - 8月9日 群聊讨论要点</p>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🤖</div>
+                <div class="theme-title">人工智能与机器人</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>农冰立（景顺长城基金经理）看好人工智能、机器人、半导体三大方向，认为科技牛市高度值得期待。AI作为第六次科技革命的核心驱动力，具备长期投资价值。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 重点标的</h4>
+                    <p>• 景顺长城基金相关AI产品</p>
+                    <p>• 机器人产业链相关标的</p>
+                    <p>• 算力基础设施概念</p>
+                    <span class="performance-indicator positive">强势看好</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📊 市场表现</h4>
+                    <p>• 科技股整体表现强势</p>
+                    <p>• AI概念持续受到关注</p>
+                    <p>• 与医疗股存在联动效应</p>
+                    <span class="performance-indicator positive">表现良好</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• 农冰立在群内分享对AI、机器人、半导体的看好观点</p>
+                <p>• 科技牛市高度预期乐观，长期投资价值显著</p>
+                <p>• 建议关注景顺长城等专业机构的AI主题产品</p>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">💻</div>
+                <div class="theme-title">半导体产业</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>半导体作为科技牛市的核心赛道，是"十四五"规划的重点发展方向。高端制造和半导体是当前重点关注的投资领域，具备政策支持和产业升级双重驱动。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 投资方向</h4>
+                    <p>• 高端制造相关标的</p>
+                    <p>• 半导体设备与材料</p>
+                    <p>• 芯片设计与制造</p>
+                    <span class="performance-indicator positive">政策支持</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📈 发展前景</h4>
+                    <p>• "十四五"规划重点方向</p>
+                    <p>• 国产替代空间巨大</p>
+                    <p>• 技术突破持续推进</p>
+                    <span class="performance-indicator positive">长期看好</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• "十四五"规划未完成部分值得重点关注</p>
+                <p>• 高端制造和半导体是重点投资方向</p>
+                <p>• 农冰立等基金经理看好半导体长期发展</p>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🌏</div>
+                <div class="theme-title">港股科技</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>恒生港股通科技指数表现强势，港股科技ETF与恒生科技指数存在差异但整体向好。港股科技板块估值相对合理，具备配置价值。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 重点标的</h4>
+                    <p>• 港股科技ETF</p>
+                    <p>• 恒生科技指数</p>
+                    <p>• 港股通科技指数</p>
+                    <span class="performance-indicator positive">强势表现</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📊 市场动态</h4>
+                    <p>• 南下资金有所流出</p>
+                    <p>• 整体趋势依然向好</p>
+                    <p>• 估值相对合理</p>
+                    <span class="performance-indicator neutral">震荡向上</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• 恒生港股通科技指数持续强势表现</p>
+                <p>• 港股科技ETF与恒生科技指数的差异分析</p>
+                <p>• 南下资金卖出但不影响长期趋势</p>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">💊</div>
+                <div class="theme-title">创新药</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>港股创新药板块表现突出，受益于政策支持和产业发展。创新药作为医疗健康领域的重要组成部分，与科技股存在一定联动效应。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 投资机会</h4>
+                    <p>• 港股创新药标的</p>
+                    <p>• 医药创新概念</p>
+                    <p>• 生物科技公司</p>
+                    <span class="performance-indicator positive">表现突出</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📈 发展趋势</h4>
+                    <p>• 政策环境持续改善</p>
+                    <p>• 创新能力不断提升</p>
+                    <p>• 国际化进程加速</p>
+                    <span class="performance-indicator positive">前景看好</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• 港股创新药板块表现突出，值得关注</p>
+                <p>• 科技股与医疗股存在联动效应</p>
+                <p>• 创新药长期发展前景良好</p>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">⚔️</div>
+                <div class="theme-title">军工板块</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>军工板块炒作逻辑明确，受益于地缘政治因素和国防建设需求。作为特殊时期的防御性板块，具备一定的配置价值。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 投资特点</h4>
+                    <p>• 炒作逻辑明确</p>
+                    <p>• 政策支持稳定</p>
+                    <p>• 防御属性突出</p>
+                    <span class="performance-indicator neutral">主题投资</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📊 市场表现</h4>
+                    <p>• 阶段性表现活跃</p>
+                    <p>• 受事件驱动明显</p>
+                    <p>• 波动性相对较大</p>
+                    <span class="performance-indicator neutral">波动较大</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• 军工板块炒作逻辑明确，适合主题投资</p>
+                <p>• 受地缘政治因素影响较大</p>
+                <p>• 建议适度配置，控制仓位</p>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">📊</div>
+                <div class="theme-title">量化策略</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>微盘量化基金作为底仓配置工具，能够在震荡市场中提供相对稳定的收益。量化策略通过系统性方法降低主观判断风险。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <h4>🎯 配置建议</h4>
+                    <p>• 微盘量化基金</p>
+                    <p>• 多策略量化产品</p>
+                    <p>• 指数增强基金</p>
+                    <span class="performance-indicator neutral">稳健配置</span>
+                </div>
+                
+                <div class="target-card">
+                    <h4>📈 策略优势</h4>
+                    <p>• 降低主观风险</p>
+                    <p>• 适合震荡市场</p>
+                    <p>• 分散化投资</p>
+                    <span class="performance-indicator positive">风险分散</span>
+                </div>
+            </div>
+            
+            <div class="discussion-points">
+                <h4>💬 群内讨论要点</h4>
+                <p>• 微盘量化基金适合作为底仓配置</p>
+                <p>• 在震荡市场中表现相对稳定</p>
+                <p>• 建议与主动管理基金搭配使用</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📈 数据来源：伺机而动不急不躁（正）群聊记录</p>
+            <p>⏰ 统计时间：2025年8月3日 - 8月9日</p>
+            <p>🔍 分析生成时间：2025年8月9日</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.theme-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

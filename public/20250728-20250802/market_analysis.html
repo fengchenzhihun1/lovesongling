@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场分析与策略 | 伺机而动不急不躁（正）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+            color: #333;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: #00d4ff;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .market-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .market-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .market-card h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .performance-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px 5px 0 0;
+        }
+
+        .positive {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .negative {
+            background: linear-gradient(45deg, #f44336, #da190b);
+            color: white;
+        }
+
+        .neutral {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+            color: white;
+        }
+
+        .strategy-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #00d4ff, #0099cc);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border-radius: 50%;
+            border: 3px solid #1a1a2e;
+        }
+
+        .date-tag {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .quote-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        .speaker {
+            color: #ff6b6b;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .risk-warning {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .chart-placeholder {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .analysis-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="investment_summary_main.html" class="back-btn">← 返回总览</a>
+        
+        <div class="header">
+            <h1>📈 市场分析与投资策略</h1>
+            <p>深度解读市场走势与投资机会</p>
+        </div>
+
+        <!-- 市场表现概览 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">📊</div>
+                <div>市场表现概览</div>
+            </div>
+            
+            <div class="market-grid">
+                <div class="market-card">
+                    <h3>🚀 强势板块</h3>
+                    <div class="performance-indicator positive">科创200: +13连红</div>
+                    <div class="performance-indicator positive">中证1000: 创新高</div>
+                    <div class="performance-indicator positive">港股非银: +4%</div>
+                    <div class="performance-indicator positive">创新药: 利好频出</div>
+                    <p>科技成长板块表现强劲，科创200连续13个交易日上涨，中证1000突破去年10月高点并创新高。</p>
+                </div>
+                
+                <div class="market-card">
+                    <h3>⚠️ 调整板块</h3>
+                    <div class="performance-indicator negative">银行: 日线下跌</div>
+                    <div class="performance-indicator neutral">上证指数: 横盘</div>
+                    <div class="performance-indicator negative">建材: 微亏出局</div>
+                    <p>银行板块自7月11日开始日线下跌，上证指数预期横盘，上攻困难。建材等周期品种表现疲软。</p>
+                </div>
+                
+                <div class="market-card">
+                    <h3>🌍 海外市场</h3>
+                    <div class="performance-indicator positive">美股AI: 大涨</div>
+                    <div class="performance-indicator positive">Meta: 超预期</div>
+                    <div class="performance-indicator positive">微软: 超预期</div>
+                    <div class="performance-indicator neutral">美联储: 不降息</div>
+                    <p>美股AI板块表现强劲，Meta和微软业绩超预期。美联储释放25年不降息信号，但市场可接受。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心观点与策略 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">💡</div>
+                <div>核心投资观点</div>
+            </div>
+            
+            <div class="strategy-box">
+                <h3>🎯 听松涛核心理念</h3>
+                <div class="quote-box">
+                    <div class="speaker">听松涛：</div>
+                    "牛市里就是要围绕主线来做，跟着趋势走，这个才是牛市的标准姿势。那种找低估找便宜捡垃圾的都是熊市标准姿势。什么叫主线，就是在一轮牛市下来其成分股大多数涨5-10倍的。"
+                </div>
+            </div>
+            
+            <div class="strategy-box">
+                <h3>📈 牛市操作要点</h3>
+                <ul>
+                    <li><strong>趋势为王：</strong>跟着趋势走，不逆势操作</li>
+                    <li><strong>主线配置：</strong>围绕六大主线进行资产配置</li>
+                    <li><strong>仓位决定收益：</strong>牛市中仓位比选股更重要</li>
+                    <li><strong>产业逻辑：</strong>每一轮牛市主线不是找地板价，而是找逻辑</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <h3>🔄 资产配置策略</h3>
+                <div class="quote-box">
+                    <div class="speaker">涛处带我飞：</div>
+                    "成年人不做选择题，都要配置。牛市不大赚，经不起熊市亏。"
+                </div>
+                <p>建议港A并重，港股非银性价比更高，A股流动性更好。适时进行基金转换，将资金集中到主线品种。</p>
+            </div>
+        </div>
+
+        <!-- 市场时间线分析 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">⏰</div>
+                <div>关键事件时间线</div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="date-tag">7月28日 早盘</div>
+                    <h4>🔄 配置调整开始</h4>
+                    <p>• 听松涛建议微盘股量化配置不达标的逐步转换</p>
+                    <p>• 推荐量化三公子：中信保诚多策略、诺安多策略和建信灵活</p>
+                    <div class="quote-box">
+                        <div class="speaker">听松涛：</div>
+                        "跟我一样微盘股量化配置不达标的，逐步转吧。"
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="date-tag">7月28日 上午</div>
+                    <h4>💊 创新药重大利好</h4>
+                    <p>• 恒瑞医药获得120亿美金潜在收入的国际合作</p>
+                    <p>• 首付款5亿美金，市场预期大幅提升</p>
+                    <p>• 汇添富达欣等创新药基金受益明显</p>
+                    <div class="quote-box">
+                        <div class="speaker">刘欢：</div>
+                        "恒瑞120亿美金的潜在收入，这不得好几个板。"
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="date-tag">7月28日 中午</div>
+                    <h4>🏦 非银金融强势</h4>
+                    <p>• 港股非银单日涨幅4个点</p>
+                    <p>• 证券板块开始拉升</p>
+                    <p>• 群内达成共识：非银是重要配置方向</p>
+                    <div class="quote-box">
+                        <div class="speaker">刘欢：</div>
+                        "@听松涛 涛处，大家昨天的分享标的里面共识之一就是非银。"
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="date-tag">7月28日 下午</div>
+                    <h4>🎯 主线策略明确</h4>
+                    <p>• 听松涛明确提出六大牛市主线</p>
+                    <p>• 强调产业支撑的重要性</p>
+                    <p>• 建材打野失败，转向科技主线</p>
+                    <div class="quote-box">
+                        <div class="speaker">听松涛：</div>
+                        "这轮港A股的牛市主线，其内在逻辑，就是产业支撑。"
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="date-tag">7月31日</div>
+                    <h4>🤖 AI板块再度发力</h4>
+                    <p>• 美股Meta和微软业绩超预期</p>
+                    <p>• 摩根新兴动力即将创历史新高</p>
+                    <p>• 永赢科技智选成为"主线之主线"</p>
+                    <div class="quote-box">
+                        <div class="speaker">听松涛：</div>
+                        "对不起，我发誓，哪怕等一个单日大跌，我都要追进去了。这货原来是科技主线当中的主线吧——简称主线之主线。"
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="date-tag">7月31日</div>
+                    <h4>📈 科创200持续强势</h4>
+                    <p>• 科创200连续13个交易日上涨</p>
+                    <p>• 中证1000突破去年10月高点并创新高</p>
+                    <p>• 成交量明显放大，资金关注度提升</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 重点标的分析 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">🎯</div>
+                <div>重点标的表现分析</div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>标的名称</th>
+                        <th>类型</th>
+                        <th>表现</th>
+                        <th>推荐人</th>
+                        <th>核心逻辑</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>科创200ETF</td>
+                        <td>指数基金</td>
+                        <td><span class="performance-indicator positive">13连红</span></td>
+                        <td>听松涛</td>
+                        <td>科技主线核心，成交量放大</td>
+                    </tr>
+                    <tr>
+                        <td>摩根新兴动力</td>
+                        <td>主动基金</td>
+                        <td><span class="performance-indicator positive">即将新高</span></td>
+                        <td>听松涛</td>
+                        <td>AI主题，第一重仓</td>
+                    </tr>
+                    <tr>
+                        <td>永赢科技智选</td>
+                        <td>主动基金</td>
+                        <td><span class="performance-indicator positive">主线之主线</span></td>
+                        <td>听松涛</td>
+                        <td>科技龙头，PCB光模块</td>
+                    </tr>
+                    <tr>
+                        <td>港股非银ETF</td>
+                        <td>指数基金</td>
+                        <td><span class="performance-indicator positive">+4%</span></td>
+                        <td>群体共识</td>
+                        <td>性价比高，稳定币故事</td>
+                    </tr>
+                    <tr>
+                        <td>汇添富达欣</td>
+                        <td>主动基金</td>
+                        <td><span class="performance-indicator positive">利好频出</span></td>
+                        <td>狮子是只大号的猫</td>
+                        <td>创新药主题，恒瑞受益</td>
+                    </tr>
+                    <tr>
+                        <td>中证1000ETF</td>
+                        <td>指数基金</td>
+                        <td><span class="performance-indicator positive">创新高</span></td>
+                        <td>Christopher</td>
+                        <td>小盘成长，率先突破</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 风险与机会 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">⚖️</div>
+                <div>风险与机会分析</div>
+            </div>
+            
+            <div class="market-grid">
+                <div class="market-card">
+                    <h3>🚀 投资机会</h3>
+                    <ul>
+                        <li><strong>科技主线持续强势：</strong>AI、创新药等板块基本面支撑强劲</li>
+                        <li><strong>政策红利释放：</strong>保险入市、稳定币等政策利好</li>
+                        <li><strong>国际合作增加：</strong>创新药国际化进程加速</li>
+                        <li><strong>估值修复空间：</strong>港股非银等板块性价比突出</li>
+                    </ul>
+                </div>
+                
+                <div class="market-card">
+                    <h3>⚠️ 潜在风险</h3>
+                    <ul>
+                        <li><strong>调整预期：</strong>预计半个月到一个月的调整期</li>
+                        <li><strong>美联储政策：</strong>25年不降息预期带来不确定性</li>
+                        <li><strong>板块轮动：</strong>热点切换可能带来短期波动</li>
+                        <li><strong>估值压力：</strong>部分热门标的估值偏高</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="quote-box">
+                <div class="speaker">哈哈：舒服最重要：</div>
+                "今天主要是看银行了，银行7/11日开始就是日线1笔下了。上证么，就看能不能在这里横盘住了，上攻是不可能的了。我现在就是一个短线看调整的人。你要问我调整多久，至少半个月，可能一个月。"
+            </div>
+        </div>
+
+        <!-- 操作建议 -->
+        <div class="analysis-section">
+            <div class="section-title">
+                <div class="section-icon">📋</div>
+                <div>具体操作建议</div>
+            </div>
+            
+            <div class="strategy-box">
+                <h3>🎯 短期操作</h3>
+                <ul>
+                    <li><strong>转换策略：</strong>将建材等周期品种转换到科创200等科技主线</li>
+                    <li><strong>增配非银：</strong>适度增加港股非银配置，享受性价比优势</li>
+                    <li><strong>关注回调：</strong>等待永赢科技智选等优质标的回调机会</li>
+                    <li><strong>保持耐心：</strong>预期短期调整，不要恐慌性操作</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <h3>📈 中长期布局</h3>
+                <ul>
+                    <li><strong>坚持主线：</strong>围绕六大主线进行长期配置</li>
+                    <li><strong>分批建仓：</strong>优质标的可以分批建仓，降低成本</li>
+                    <li><strong>动态调整：</strong>根据市场变化动态调整配置比例</li>
+                    <li><strong>港A并重：</strong>充分利用两地市场的不同优势</li>
+                </ul>
+            </div>
+            
+            <div class="risk-warning">
+                <h4>⚠️ 重要提示</h4>
+                <p>• 以上分析基于群聊讨论内容，仅供参考，不构成投资建议</p>
+                <p>• 投资有风险，入市需谨慎，请根据自身风险承受能力进行投资</p>
+                <p>• 市场变化较快，建议密切关注市场动态，及时调整策略</p>
+                <p>• 建议分散投资，不要将资金集中在单一标的或板块</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.analysis-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // 表格行悬停效果
+        document.querySelectorAll('.data-table tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

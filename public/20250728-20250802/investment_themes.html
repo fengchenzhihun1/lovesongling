@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投资主题深度分析 | 伺机而动不急不躁（正）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .theme-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .theme-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .theme-title {
+            color: #00d4ff;
+            font-size: 1.8em;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 5px;
+        }
+
+        .logic-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .target-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .target-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        .target-name {
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .performance-tag {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: #333;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin: 5px 5px 0 0;
+        }
+
+        .discussion-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #ff6b6b;
+        }
+
+        .speaker {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #ccc;
+            margin: 5px 0;
+        }
+
+        .risk-warning {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .date-tag {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .theme-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .targets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="investment_summary_main.html" class="back-btn">← 返回总览</a>
+        
+        <div class="header">
+            <h1>🎯 投资主题深度分析</h1>
+            <p>六大牛市主线详细解读</p>
+        </div>
+
+        <!-- 人工智能主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🤖</div>
+                <div class="theme-title">人工智能 - 第六次科技革命引擎</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>第六次科技革命的核心引擎，AI技术正在重塑各个行业，具有长期成长空间。美股Meta、微软等业绩超预期，验证了AI商业化的可行性。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <div class="target-name">摩根新兴动力</div>
+                    <p>听松涛第一重仓，重仓人工智能标的</p>
+                    <div class="performance-tag">即将创历史新高</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">永赢科技智选</div>
+                    <p>科技主线之主线，重仓光模块、PCB等核心资产</p>
+                    <div class="performance-tag">主线之主线</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">华商智能生活</div>
+                    <p>人工智能主题基金，回撤控制较好</p>
+                    <div class="performance-tag">稳健成长</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">景顺长城AI</div>
+                    <p>专注人工智能领域投资</p>
+                    <div class="performance-tag">专业聚焦</div>
+                </div>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月31日</div>
+                <div class="speaker">lisen：</div>
+                <div class="quote">"还是要搞AI，人工智能。摩根新兴动力，拿了很多人工智能，很快要创历史新高了。"</div>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月31日</div>
+                <div class="speaker">听松涛：</div>
+                <div class="quote">"摩根我们都喊破嗓子了，大家配置的如何，反正是我的第一重仓。"</div>
+            </div>
+        </div>
+
+        <!-- 创新药主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">💊</div>
+                <div class="theme-title">创新药 - 国产替代后来居上</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>国产创新药正在实现从跟跑到并跑再到领跑的转变，政策支持力度大，国际合作频繁，具有巨大的进口替代空间。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <div class="target-name">汇添富达欣</div>
+                    <p>创新药主题基金，受益恒瑞等龙头利好</p>
+                    <div class="performance-tag">利好频出</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">恒瑞医药</div>
+                    <p>120亿美金潜在收入，5亿美金首付款</p>
+                    <div class="performance-tag">重磅合作</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="date-tag">7月28日</div>
+                <h4>🔥 重大利好消息</h4>
+                <p>• 恒瑞医药获得120亿美金潜在收入的国际合作</p>
+                <p>• 首付款5亿美金，市场预期大幅提升</p>
+                <p>• 9价宫颈癌疫苗等产品全球收入数百亿美金</p>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月28日</div>
+                <div class="speaker">听松涛：</div>
+                <div class="quote">"超配创新药，至死不渝！！！"</div>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月30日</div>
+                <div class="speaker">封尘之魂：</div>
+                <div class="quote">"创新药利好不断"</div>
+            </div>
+        </div>
+
+        <!-- 非银金融主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🏦</div>
+                <div class="theme-title">非银金融 - 稳定币&牛市旗手</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>政策对保险放开入市，稳定币等新业务带来增长空间，在牛市中通常是旗手角色。港股非银性价比更高，有更多政策红利。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <div class="target-name">港股非银ETF</div>
+                    <p>性价比更高，有稳定币等更多故事</p>
+                    <div class="performance-tag">单日+4%</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">A股非银ETF</div>
+                    <p>内地流动性更好，长期溢价</p>
+                    <div class="performance-tag">稳健增长</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">香港证券ETF</div>
+                    <p>交易所是牛市中的印钞机</p>
+                    <div class="performance-tag">弹性较大</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="date-tag">7月28日</div>
+                <h4>📈 强势表现</h4>
+                <p>• 港股非银单日涨幅4个点</p>
+                <p>• 政策对保险放开入市，未来非银会强于沪深300</p>
+                <p>• 港股非银有稳定币等更多业务故事</p>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月28日</div>
+                <div class="speaker">山南水北：</div>
+                <div class="quote">"对比沪深300非银和港股非银，港股非银性价比更高。"</div>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月28日</div>
+                <div class="speaker">Christopher：</div>
+                <div class="quote">"港股非银更有故事，光稳定币这个就够演绎了。"</div>
+            </div>
+        </div>
+
+        <!-- 科技成长主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🚀</div>
+                <div class="theme-title">科技成长 - 核心主线集合</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>科创200等科技成长指数表现强劲，连续上涨验证了科技主线的正确性。中证1000突破去年高点并创新高，小盘成长股迎来春天。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <div class="target-name">科创200ETF</div>
+                    <p>连续13个交易日上涨，成交量放大</p>
+                    <div class="performance-tag">13连红</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">中证1000ETF</div>
+                    <p>突破去年10月高点并创新高</p>
+                    <div class="performance-tag">创新高</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">胡中原基金</div>
+                    <p>科创芯片主题，表现优异</p>
+                    <div class="performance-tag">稳健成长</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="date-tag">7月31日</div>
+                <h4>🎯 转换策略</h4>
+                <p>• 建材等周期品种转换到科创200</p>
+                <p>• 科创200近期成交量明显放大</p>
+                <p>• 中证1000率先突破，引领小盘成长</p>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月28日</div>
+                <div class="speaker">涛处带我飞：</div>
+                <div class="quote">"昨天就下单转科创200了，这点小亏损无所谓，急着转换是加急把兵力集中到科技主线上来。"</div>
+            </div>
+        </div>
+
+        <!-- 固态电池主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🔋</div>
+                <div class="theme-title">固态电池 - 新能源再革命</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>固态电池技术突破将带来新能源汽车的再次革命，能量密度更高、安全性更好，是下一代电池技术的发展方向。</p>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月28日</div>
+                <div class="speaker">封尘之魂：</div>
+                <div class="quote">"固态电池有啥？科200"</div>
+            </div>
+            
+            <div class="risk-warning">
+                <h4>⚠️ 投资提示</h4>
+                <p>固态电池主题相关标的听松涛暂未明确推荐具体标的，建议关注科创200中的相关成分股。</p>
+            </div>
+        </div>
+
+        <!-- 新消费主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🛍️</div>
+                <div class="theme-title">新消费 - 情绪价值逻辑</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>消费升级背景下，注重情绪价值和体验的新消费品牌崛起，年轻消费者愿意为品牌价值和情感认同付费。</p>
+            </div>
+            
+            <div class="risk-warning">
+                <h4>⚠️ 配置建议</h4>
+                <p>新消费主题在群聊中讨论较少，建议关注后续具体标的推荐。</p>
+            </div>
+        </div>
+
+        <!-- 顺周期主题 -->
+        <div class="theme-section">
+            <div class="theme-header">
+                <div class="theme-icon">🏭</div>
+                <div class="theme-title">顺周期 - 康波周期复苏逻辑</div>
+            </div>
+            
+            <div class="logic-box">
+                <h3>💡 投资逻辑</h3>
+                <p>本轮牛市恰逢康波周期复苏期，必须引入周期复苏逻辑。有色金属等周期品种在复苏逻辑下具有较强的投资价值。</p>
+            </div>
+            
+            <div class="targets-grid">
+                <div class="target-card">
+                    <div class="target-name">有色金属ETF</div>
+                    <p>复苏逻辑比化工更硬</p>
+                    <div class="performance-tag">逻辑较强</div>
+                </div>
+                
+                <div class="target-card">
+                    <div class="target-name">化工ETF</div>
+                    <p>地板价位置，但听松涛不会配置</p>
+                    <div class="performance-tag">估值较低</div>
+                </div>
+            </div>
+            
+            <div class="discussion-box">
+                <div class="date-tag">7月31日</div>
+                <div class="speaker">听松涛：</div>
+                <div class="quote">"每一轮牛市主线不是找地板价，而是找逻辑，产业趋势逻辑是每一轮牛市都要首先考虑的，而当下这一轮，必须考虑康波周期视角下的复苏逻辑。"</div>
+            </div>
+        </div>
+
+        <div class="theme-section">
+            <h2>📊 主题配置建议</h2>
+            
+            <div class="logic-box">
+                <h3>🎯 核心配置思路</h3>
+                <p>1. <strong>重点配置</strong>：人工智能、创新药、非银金融</p>
+                <p>2. <strong>适度配置</strong>：科技成长、顺周期</p>
+                <p>3. <strong>关注跟踪</strong>：固态电池、新消费</p>
+                <p>4. <strong>港A并重</strong>：港股非银性价比更高，A股流动性更好</p>
+            </div>
+            
+            <div class="risk-warning">
+                <h4>⚠️ 风险提示</h4>
+                <p>• 投资有风险，以上分析仅供参考</p>
+                <p>• 市场变化较快，需要动态调整配置</p>
+                <p>• 建议结合个人风险承受能力进行投资</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.theme-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

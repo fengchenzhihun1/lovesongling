@@ -12,5 +12,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  publicDir: 'public',
+  server: {
+    fs: {
+      allow: ['..', 'resource']
+    }
   }
 })

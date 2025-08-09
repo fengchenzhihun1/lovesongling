@@ -1,0 +1,133 @@
+/* Footer样式优化 */
+.footer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border-top: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 15px 15px 0 0;
+  padding: 30px;
+  margin-top: 40px;
+  text-align: center;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff6b6b);
+  background-size: 200% 100%;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.footer p {
+  color: #e2e8f0;
+  margin: 8px 0;
+  font-size: 0.95em;
+  line-height: 1.6;
+  display: inline;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+.footer p:hover {
+  color: #00d4ff;
+}
+
+.footer p:first-child {
+  font-weight: 600;
+  color: #00d4ff;
+  font-size: 1.05em;
+}
+
+.footer p:last-child {
+  color: #a0aec0;
+  font-size: 0.9em;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 15px;
+    margin-top: 30px;
+  }
+  
+  .footer p {
+    font-size: 0.9em;
+    margin-right: 10px;
+  }
+  
+  .footer p:first-child {
+    font-size: 1em;
+  }
+}
+
+/* 为HTML内容中的footer添加样式 */
+:global(.main-content .footer) {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border-top: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 15px 15px 0 0;
+  padding: 30px;
+  margin-top: 40px;
+  text-align: center;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+:global(.main-content .footer::before) {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff6b6b);
+  background-size: 200% 100%;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+:global(.main-content .footer p) {
+  color: #e2e8f0 !important;
+  margin: 8px 0;
+  font-size: 0.95em;
+  line-height: 1.6;
+  display: inline;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+:global(.main-content .footer p:hover) {
+  color: #00d4ff !important;
+}
+
+:global(.main-content .footer p:first-child) {
+  font-weight: 600;
+  color: #00d4ff !important;
+  font-size: 1.05em;
+}
+
+:global(.main-content .footer p:last-child) {
+  color: #a0aec0 !important;
+  font-size: 0.9em;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

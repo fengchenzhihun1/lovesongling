@@ -5,6 +5,62 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const showModules = ref(false)
 
+// 密码验证相关
+const isAuthenticated = ref(false)
+const password = ref('')
+const showError = ref(false)
+const errorMessage = ref('')
+const isLoading = ref(false)
+const correctPassword = 'v587'
+
+// 检查是否已经验证过
+const checkAuthentication = () => {
+  const authStatus = sessionStorage.getItem('homeAuthenticated')
+  if (authStatus === 'true') {
+    isAuthenticated.value = true
+  }
+}
+
+// 验证密码
+const verifyPassword = async () => {
+  if (!password.value.trim()) {
+    showErrorMessage('请输入密码')
+    return
+  }
+  
+  isLoading.value = true
+  
+  // 模拟验证延迟
+  await new Promise(resolve => setTimeout(resolve, 500))
+  
+  if (password.value === correctPassword) {
+    isAuthenticated.value = true
+    sessionStorage.setItem('homeAuthenticated', 'true')
+    showError.value = false
+  } else {
+    showErrorMessage('密码错误，请重试')
+    password.value = ''
+  }
+  
+  isLoading.value = false
+}
+
+// 显示错误信息
+const showErrorMessage = (message: string) => {
+  errorMessage.value = message
+  showError.value = true
+  setTimeout(() => {
+    showError.value = false
+  }, 3000)
+}
+
+// 处理回车键
+const handleKeyPress = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    verifyPassword()
+  }
+}
+
 // 模块数据
 const modules = [
   {
@@ -19,12 +75,12 @@ const modules = [
   },
   {
     id: 'investment',
-    title: '基金投资',
-    subtitle: '理财规划与投资分析',
-    icon: '💰',
+    title: '投资策略',
+    subtitle: '按周整理的投资分析',
+    icon: '📊',
     color: '#4CAF50',
     gradient: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
-    description: '专业的基金投资分析和理财规划建议',
+    description: '按周组织的投资策略分析，包含市场洞察和主题研究',
     route: '/investment'
   },
   {
@@ -44,6 +100,7 @@ const navigateToModule = (route: string) => {
 }
 
 onMounted(() => {
+  checkAuthentication()
   setTimeout(() => {
     showModules.value = true
   }, 500)
@@ -52,61 +109,104 @@ onMounted(() => {
 
 <template>
   <div class="home-container">
-    <!-- 主标题区域 -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1 class="main-title">
-          <span class="title-line">欢迎来到</span>
-          <span class="title-highlight">我的个人空间</span>
-        </h1>
-        <p class="hero-subtitle">
-          这里有我的爱情故事、投资心得和童年回忆
-        </p>
-        <div class="hero-decoration">
-          <div class="floating-icon">🌟</div>
-          <div class="floating-icon">✨</div>
-          <div class="floating-icon">💫</div>
+    <!-- 密码验证界面 -->
+    <div v-if="!isAuthenticated" class="password-overlay">
+      <div class="password-container">
+        <div class="password-header">
+          <div class="lock-icon">🔒</div>
+          <h2 class="password-title">访问验证</h2>
+          <p class="password-subtitle">请输入密码以访问个人空间</p>
+        </div>
+        
+        <div class="password-form">
+          <div class="input-group">
+            <input 
+              v-model="password"
+              type="password"
+              placeholder="请输入密码"
+              class="password-input"
+              @keypress="handleKeyPress"
+              :disabled="isLoading"
+            />
+            <button 
+              @click="verifyPassword"
+              class="verify-btn"
+              :disabled="isLoading"
+            >
+              <span v-if="!isLoading">验证</span>
+              <span v-else class="loading-spinner">⏳</span>
+            </button>
+          </div>
+          
+          <div v-if="showError" class="error-message">
+            <span class="error-icon">⚠️</span>
+            {{ errorMessage }}
+          </div>
+        </div>
+        
+        <div class="password-footer">
+          <p class="hint-text">提示：密码是一个简单的数字组合</p>
         </div>
       </div>
-    </section>
+    </div>
+    <!-- 主要内容区域 - 只有认证后才显示 -->
+    <div v-if="isAuthenticated" class="main-content">
+      <!-- 主标题区域 -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="main-title">
+            <span class="title-line">欢迎来到</span>
+            <span class="title-highlight">我的个人空间</span>
+          </h1>
+          <p class="hero-subtitle">
+            这里有我的爱情故事、投资心得和童年回忆
+          </p>
+          <div class="hero-decoration">
+            <div class="floating-icon">🌟</div>
+            <div class="floating-icon">✨</div>
+            <div class="floating-icon">💫</div>
+          </div>
+        </div>
+      </section>
 
-    <!-- 模块卡片区域 -->
-    <section class="modules-section">
-      <div class="modules-container">
-        <h2 class="section-title">探索不同的世界</h2>
-        <div class="modules-grid" :class="{ 'show': showModules }">
-          <div 
-            v-for="(module, index) in modules" 
-            :key="module.id"
-            class="module-card"
-            :style="{ '--delay': index * 0.2 + 's', '--gradient': module.gradient }"
-            @click="navigateToModule(module.route)"
-          >
-            <div class="card-header">
-              <div class="module-icon">{{ module.icon }}</div>
-              <div class="card-glow"></div>
-            </div>
-            <div class="card-content">
-              <h3 class="module-title">{{ module.title }}</h3>
-              <p class="module-subtitle">{{ module.subtitle }}</p>
-              <p class="module-description">{{ module.description }}</p>
-            </div>
-            <div class="card-footer">
-              <button class="explore-btn">
-                <span>探索</span>
-                <span class="btn-arrow">→</span>
-              </button>
+      <!-- 模块卡片区域 -->
+      <section class="modules-section">
+        <div class="modules-container">
+          <h2 class="section-title">探索不同的世界</h2>
+          <div class="modules-grid" :class="{ 'show': showModules }">
+            <div 
+              v-for="(module, index) in modules" 
+              :key="module.id"
+              class="module-card"
+              :style="{ '--delay': index * 0.2 + 's', '--gradient': module.gradient }"
+              @click="navigateToModule(module.route)"
+            >
+              <div class="card-header">
+                <div class="module-icon">{{ module.icon }}</div>
+                <div class="card-glow"></div>
+              </div>
+              <div class="card-content">
+                <h3 class="module-title">{{ module.title }}</h3>
+                <p class="module-subtitle">{{ module.subtitle }}</p>
+                <p class="module-description">{{ module.description }}</p>
+              </div>
+              <div class="card-footer">
+                <button class="explore-btn">
+                  <span>探索</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 装饰性背景元素 -->
-    <div class="background-decoration">
-      <div class="bg-circle bg-circle-1"></div>
-      <div class="bg-circle bg-circle-2"></div>
-      <div class="bg-circle bg-circle-3"></div>
+      <!-- 装饰性背景元素 -->
+      <div class="background-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-circle bg-circle-3"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -117,6 +217,190 @@ onMounted(() => {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow: hidden;
+}
+
+/* 密码验证界面样式 */
+.password-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.password-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideInScale 0.6s ease-out;
+}
+
+.password-header {
+  margin-bottom: 2rem;
+}
+
+.lock-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.password-title {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.password-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.password-form {
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.password-input {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.password-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.password-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.password-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.verify-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #ff6b8b, #4ecdc4);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.verify-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.verify-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.error-message {
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-radius: 10px;
+  padding: 0.8rem;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+.password-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.hint-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* 密码验证动画 */
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* 主标题区域 */

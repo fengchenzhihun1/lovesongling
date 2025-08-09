@@ -1,135 +1,215 @@
-<script setup lang="ts" name="InvestmentIndex">
-import HomeButton from '@/components/HomeButton.vue'
-
-// 基金投资模块的导航项
-const navItems = [
-  { name: '基金首页', path: '/investment', icon: '📊', description: '基金投资概览' },
-  { name: '基金详情', path: '/investment/details', icon: '📈', description: '基金详细信息' },
-  { name: '投资组合', path: '/investment/portfolio', icon: '💼', description: '我的投资组合' }
-]
-</script>
-
 <template>
-  <div class="investment-module-container">
-    <div class="investment-header">
-      <h1 class="investment-title">基金投资</h1>
-      <p class="investment-subtitle">智慧理财，稳健增值</p>
-    </div>
-    
-    <div class="investment-nav">
-      <div class="nav-links">
-        <router-link 
-          v-for="item in navItems" 
-          :key="item.path" 
-          :to="item.path" 
-          class="nav-link" 
-          :class="{ active: $route.path === item.path }"
+  <div class="investment-home">
+    <div class="container">
+      <div class="header">
+        <h1>📊 投资策略分析系统</h1>
+        <p>伺机而动不急不躁（正）投资策略总结</p>
+      </div>
+
+      <div class="weeks-grid">
+        <div 
+          v-for="week in weeks" 
+          :key="week.id"
+          class="week-card"
+          @click="navigateToWeek(week.id)"
         >
-          <span class="nav-icon">{{ item.icon }}</span>
-          <span class="nav-text">{{ item.name }}</span>
-        </router-link>
+          <div class="week-header">
+            <div class="week-icon">📅</div>
+            <div class="week-info">
+              <h3>{{ week.title }}</h3>
+              <p class="week-date">{{ week.dateRange }}</p>
+            </div>
+          </div>
+          
+          <div class="week-preview">
+            <p>本周基金讨论要点：{{ week.fundDiscussion }}</p>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="investment-content">
-      <router-view />
-    </div>
-    
-    <!-- 返回首页按钮 -->
-    <HomeButton />
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { investmentService } from '@/services/investmentService'
+
+const router = useRouter()
+const weeks = ref<any[]>([])
+
+const navigateToWeek = (weekId: string) => {
+  router.push(`/investment/week/${weekId}`)
+}
+
+onMounted(async () => {
+  weeks.value = await investmentService.getWeeks()
+})
+</script>
+
 <style scoped>
-.investment-module-container {
-  min-height: 100vh;
-  padding: 2rem;
-  background-color: #f5f9fc;
-  background-image: linear-gradient(to bottom, #f0f7fc, #f5f9fc);
+.investment-home {
+  color: #ffffff;
+  padding: 20px 0;
 }
 
-.investment-header {
+.container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
   text-align: center;
-  margin-bottom: 2rem;
-  animation: fadeInDown 1s ease-out;
+  padding: 40px 0;
+  background: linear-gradient(45deg, #00d4ff, #0099cc);
+  margin-bottom: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
 }
 
-.investment-title {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-.investment-subtitle {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 1rem;
+.header p {
+  font-size: 1.2em;
+  opacity: 0.9;
 }
 
-.investment-nav {
-  margin-bottom: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+  padding: 0 10px;
 }
 
-.nav-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-.nav-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #333;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+.week-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.nav-link:hover {
-  background-color: #f0f7fc;
-  transform: translateY(-2px);
+.week-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+  border-color: rgba(0, 212, 255, 0.5);
 }
 
-.nav-link.active {
-  background-color: #3498db;
-  color: white;
+.week-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.nav-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+.week-icon {
+  font-size: 2.5em;
+  margin-right: 15px;
 }
 
-.nav-text {
-  font-size: 0.9rem;
-  font-weight: 500;
+.week-info h3 {
+  color: #00d4ff;
+  font-size: 1.4em;
+  margin-bottom: 5px;
 }
 
-.investment-content {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  min-height: 60vh;
+.week-date {
+  color: #ccc;
+  font-size: 0.9em;
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+
+.week-preview {
+  color: #ddd;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .investment-home {
+    padding: 10px 0;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .header {
+    padding: 30px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+  }
+  
+  .header p {
+    font-size: 1em;
+  }
+  
+  .weeks-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  .week-card {
+    padding: 20px;
+    margin: 0 5px;
+  }
+  
+  .week-header {
+    margin-bottom: 15px;
+  }
+  
+  .week-icon {
+    font-size: 2em;
+    margin-right: 12px;
+  }
+  
+  .week-info h3 {
+    font-size: 1.2em;
+  }
+  
+  .week-preview {
+    font-size: 0.85em;
   }
 }
 
-/* 返回首页按钮样式已移除，使用通用的HomeButton组件 */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.6em;
+  }
+  
+  .header p {
+    font-size: 0.9em;
+  }
+  
+  .week-card {
+    padding: 15px;
+  }
+  
+  .week-icon {
+    font-size: 1.8em;
+    margin-right: 10px;
+  }
+  
+  .week-info h3 {
+    font-size: 1.1em;
+  }
+  
+  .week-preview {
+    font-size: 0.8em;
+  }
+}
 </style>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基金估值查询</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif TC', serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center; /* 确保背景图片从容器中心开始展示 */
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .input-group button:hover {
+            background-color: #3377cc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .ratio-input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .remove-btn {
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .total-value, .total-amount, .profit-loss {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #4a90e2;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group input {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>基金估值查询</h1>
+    <div class="input-group">
+        <input type="text" id="fundCodeInput" placeholder="请输入6位数字的基金代码,多个代码用空格分隔">
+        <button id="addFundBtn">添加基金</button>
+    </div>
+    <div class="input-group">
+        <input type="number" id="totalAmountInput" placeholder="请输入持仓总金额">
+    </div>
+    <div id="errorMessage" class="error-message"></div>
+    <div class="total-value" id="totalValue"></div>
+    <div class="total-amount" id="totalAmount"></div>
+    <div class="profit-loss" id="profitLoss"></div>
+    <table id="fundTable">
+        <thead>
+        <tr>
+            <th onclick="sortTable(0)">基金代码</th>
+            <th onclick="sortTable(1)">基金名称</th>
+            <th onclick="sortTable(2)">基金估值</th>
+            <th onclick="sortTable(3)">基金估值时间</th>
+            <th onclick="sortTable(4)">比例</th>
+            <th onclick="sortTable(5)">持仓金额</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="fundTableBody"></tbody>
+    </table>
+</div>
+<script>
+    const fundTableBody = document.getElementById('fundTableBody');
+    const fundCodeInput = document.getElementById('fundCodeInput');
+    const addFundBtn = document.getElementById('addFundBtn');
+    const totalValue = document.getElementById('totalValue');
+    const totalAmount = document.getElementById('totalAmount');
+    const totalAmountInput = document.getElementById('totalAmountInput');
+    const profitLoss = document.getElementById('profitLoss');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let funds = JSON.parse(localStorage.getItem('funds')) || [];
+    let totalAmountValue = localStorage.getItem('totalAmount') || '';
+
+    // 渲染基金列表
+    function renderFundList() {
+        fundTableBody.innerHTML = funds.map(fund => `
+            <tr>
+                <td>${fund.code}</td>
+                <td>${fund.name}</td>
+                <td>${fund.gszzl}%</td>
+                <td>${fund.gztime}</td>
+                <td>
+                    <input type="number" class="ratio-input" value="${fund.ratio}" step="0.01" min="0" max="100" data-code="${fund.code}">%
+                </td>
+                <td>${(totalAmountValue * fund.ratio / 100).toFixed(2)}</td>
+                <td>
+                    <button class="remove-btn" data-code="${fund.code}">删除</button>
+                </td>
+            </tr>
+        `).join('');
+
+        calculateTotalValue();
+        calculateProfitLoss();
+    }
+
+    // 添加基金
+    function addFund() {
+        const codes = fundCodeInput.value.trim().split(/\s+/);
+        const newCodes = codes.filter(code => code.length === 6 && !isNaN(code) && !funds.find(fund => fund.code === code));
+
+        if (newCodes.length === 0) {
+            errorMessage.textContent = '请输入有效的6位数字基金代码';
+            return;
+        }
+
+        newCodes.forEach(code => {
+            funds.push({ code, name: '-', gszzl: '-', gztime: '-', ratio: 0 });
+            fetchFundData(code);
+        });
+
+        fundCodeInput.value = '';
+        errorMessage.textContent = '';
+        saveFunds();
+        renderFundList();
+    }
+
+    // 删除基金
+    function removeFund(code) {
+        funds = funds.filter(fund => fund.code !== code);
+        saveFunds();
+        renderFundList();
+    }
+
+    // 更新基金比例
+    function updateFundRatio(code, ratio) {
+        const fund = funds.find(fund => fund.code === code);
+        if (fund) {
+            fund.ratio = ratio;
+            saveFunds();
+            calculateTotalValue();
+            calculateProfitLoss();
+            validateTotalRatio();
+            renderFundList(); // 重新渲染列表以更新持仓金额
+        }
+    }
+
+    // 保存基金数据到本地存储
+    function saveFunds() {
+        localStorage.setItem('funds', JSON.stringify(funds));
+    }
+
+    // 保存持仓总金额到本地存储
+    function saveTotalAmount() {
+        totalAmountValue = totalAmountInput.value.trim();
+        localStorage.setItem('totalAmount', totalAmountValue);
+        calculateProfitLoss();
+        renderFundList(); // 重新渲染列表以更新持仓金额
+    }
+
+    // 校验所有基金比例总和的函数
+    function validateTotalRatio() {
+        let totalRatio = funds.reduce((acc, fund) => acc + parseFloat(fund.ratio), 0);
+        if (totalRatio > 100) {
+            errorMessage.textContent = '所有基金的比例之和不能超过100%';
+        } else {
+            errorMessage.textContent = '';
+        }
+    }
+
+    // 计算整体估值
+    function calculateTotalValue() {
+        let totalValueChange = 0;
+        funds.forEach(fund => {
+            const gszzl = parseFloat(fund.gszzl);
+            const ratio = parseFloat(fund.ratio);
+            if (!isNaN(gszzl) && !isNaN(ratio)) {
+                totalValueChange += gszzl * ratio / 100;
+            }
+        });
+        totalValue.textContent = `整体估值变化：${totalValueChange.toFixed(2)}%`;
+    }
+
+    // 计算盈亏金额
+    function calculateProfitLoss() {
+        const totalAmount = parseFloat(totalAmountValue);
+        if (isNaN(totalAmount)) {
+            profitLoss.textContent = '盈亏金额：-';
+            return;
+        }
+
+        let profitLossValue = 0;
+        funds.forEach(fund => {
+            const gszzl = parseFloat(fund.gszzl);
+            const ratio = fund.ratio;
+            if (!isNaN(gszzl) && ratio > 0) {
+                profitLossValue += totalAmount * ratio / 100 * gszzl / 100;
+            }
+        });
+
+        profitLoss.textContent = `盈亏金额：${profitLossValue.toFixed(2)}`;
+    }
+
+    // 获取基金数据
+    function fetchFundData(code) {
+        const script = document.createElement('script');
+        script.src = `https://fundgz.1234567.com.cn/js/${code}.js?rt=${Date.now()}`;
+        document.body.appendChild(script);
+    }
+
+    // 处理基金数据
+    window.jsonpgz = data => {
+        const fund = funds.find(fund => fund.code === data.fundcode);
+        if (fund) {
+            fund.name = data.name;
+            fund.gszzl = data.gszzl;
+            fund.gztime = data.gztime;
+            renderFundList();
+        }
+    };
+
+    // 事件委托
+    fundTableBody.addEventListener('click', e => {
+        if (e.target.classList.contains('remove-btn')) {
+            const code = e.target.dataset.code;
+            removeFund(code);
+        }
+    });
+
+    fundTableBody.addEventListener('input', e => {
+        if (e.target.classList.contains('ratio-input')) {
+            const code = e.target.dataset.code;
+            const ratio = parseFloat(e.target.value);
+            if (ratio >= 0 && ratio <= 100) {
+                updateFundRatio(code, ratio);
+            } else {
+                e.target.value = funds.find(fund => fund.code === code).ratio;
+                errorMessage.textContent = '比例值应在0-100之间';
+            }
+        }
+    });
+
+    addFundBtn.addEventListener('click', addFund);
+    totalAmountInput.addEventListener('input', saveTotalAmount);
+
+    // 表格排序函数
+    function sortTable(n) {
+        let table, rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+        table = document.getElementById("fundTable");
+        switching = true;
+        dir = "asc";
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[n];
+                y = rows[i + 1].getElementsByTagName("td")[n];
+
+                if (dir === "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir === "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchCount++;
+            } else {
+                if (switchCount === 0 && dir === "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+    // 初始化
+    funds.forEach(fund => fetchFundData(fund.code));
+    renderFundList();
+    totalAmountInput.value = totalAmountValue;
+    totalAmount.textContent = `持仓总金额：${totalAmountValue}`;
+</script>
+</body>
+</html>

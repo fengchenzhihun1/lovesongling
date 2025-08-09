@@ -42,26 +42,26 @@ const router = createRouter({
       path: '/memories',
       redirect: '/love/memories'
     },
-    // 基金投资模块
+    // 投资策略模块
     {
       path: '/investment',
       name: 'investment',
-      component: () => import('../views/investment/index.vue'),
+      component: () => import('../components/InvestmentLayout.vue'),
       children: [
         {
           path: '',
           name: 'investment-home',
-          component: () => import('../views/investment/HomePage.vue')
+          component: () => import('../views/investment/index.vue')
         },
         {
-          path: 'details',
-          name: 'investment-details',
-          component: { render: () => h('div', '基金详情页面开发中...') }
+          path: 'week/:weekId',
+          name: 'investment-week',
+          component: () => import('../views/investment/WeekPage.vue')
         },
         {
-          path: 'portfolio',
-          name: 'investment-portfolio',
-          component: { render: () => h('div', '投资组合页面开发中...') }
+          path: 'week/:weekId/theme/:themeId',
+          name: 'investment-theme',
+          component: () => import('../views/investment/ThemePage.vue')
         }
       ]
     },
